@@ -6,11 +6,19 @@ import { Post, Prisma } from '@prisma/client';
 export class PostService {
   constructor(private prisma: PrismaService) {}
 
-  async post(
+  async findOne(
     postWhereUniqueInput: Prisma.PostWhereUniqueInput,
   ): Promise<Post | null> {
     return this.prisma.post.findUnique({
       where: postWhereUniqueInput,
+    });
+  }
+
+  async findAllByAuthorId({ authorId }: { authorId: number }): Promise<Post[]> {
+    return this.prisma.post.findMany({
+      where: {
+        authorId,
+      },
     });
   }
 
